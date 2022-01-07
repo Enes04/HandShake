@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerAction : MonoBehaviour
 {
     PlayerMovement plMovement;
     PlayerDrag plDrag;
     Player pl;
+
     private void Start()
     {
         plMovement = FindObjectOfType<PlayerMovement>();
@@ -18,21 +20,34 @@ public class PlayerAction : MonoBehaviour
     {
         if(other.CompareTag("Hand"))
         {
-            plMovement.isGo = false;
-            plDrag._sensitivity = 0;
             if (other.GetComponentInParent<Enemy>().mygiftType == pl.mygifttype)
             {
-                print("BAÞARILI");
+                TruePeople(other.gameObject);
             }
             else
             {
-                print("YUMRUK");
+                WrongPeople(other.gameObject);
             }
         }
         if (other.CompareTag("Body"))
         {
-            plMovement.isGo = false;
-            plDrag._sensitivity = 0;
+            WrongPeople(other.gameObject);
         }
+    }
+
+    public void WrongPeople(GameObject enemy)
+    {
+        enemy.GetComponentInParent<Enemy>().enemyColliderOff();
+        plMovement.isGo = false;
+        plDrag._sensitivity = 0;
+        plMovement.transformKill();
+        pl.GetPunch();
+    }
+    public void TruePeople(GameObject enemy)
+    {
+        enemy.GetComponentInParent<Enemy>().enemyColliderOff();
+        plMovement.isGo = false;
+        plDrag._sensitivity = 0;
+        plMovement.transformKill();
     }
 }

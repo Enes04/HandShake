@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isGo;
     public float speed;
     public float posY;
+
     void Start()
     {
         mainCam = Camera.main;
@@ -26,6 +27,11 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
+    public void transformKill()
+    {
+        mainCam.transform.DOKill();
+    }
+
     public void shakeCam()
     {
         mainCam.transform.DOLocalMove(new Vector3(cameraposX, -camerposY, mainCam.transform.localEulerAngles.z), cameraShakeSpeed).OnComplete(() =>
