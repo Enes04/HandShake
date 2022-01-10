@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
     public Collider[] enemyColliders;
     public GiftType mygiftType;
     public Canvas enemycanvas;
+    public ParticleSystem sadParticle;
+    public ParticleSystem happyParticle;
     Player pl;
     void Start()
     {

@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     PlayerMovement plMovement;
     Camera mainCam;
     PlayerDrag plDrag;
-
+    public Animator anim;
     public Sprite[] objSprite;
     public Image playerImage;
     public GiftType mygifttype;
@@ -22,8 +22,9 @@ public class Player : MonoBehaviour
         plMovement = FindObjectOfType<PlayerMovement>();
         PlayerObjChoose();
         mainCam = Camera.main;
+        anim.SetTrigger("OpenHand");
     }
-
+    
     public void PlayerObjChoose()
     {
         int rand = Random.Range(0, objSprite.Length);
@@ -51,7 +52,6 @@ public class Player : MonoBehaviour
     }
     public void shakeCam()
     {
-        print("a");
         if (shakeCount < 10)
         {
             mainCam.transform.DOLocalMove(new Vector3(0.01f, -0.01f, mainCam.transform.localEulerAngles.z), 0.01f).OnComplete(() =>
@@ -110,4 +110,5 @@ public class Player : MonoBehaviour
         }
         wrong›nt++;
     }
+    
 }

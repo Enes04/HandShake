@@ -18,7 +18,7 @@ public class PlayerAction : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Hand"))
+        if (other.CompareTag("Hand"))
         {
             if (other.GetComponentInParent<Enemy>().mygiftType == pl.mygifttype)
             {
@@ -41,7 +41,10 @@ public class PlayerAction : MonoBehaviour
         plMovement.isGo = false;
         plDrag._sensitivity = 0;
         plMovement.transformKill();
-        pl.GetPunch();
+        enemy.GetComponentInParent<Enemy>().sadParticle.Play();
+        Invoke("GoPlayerReturn", 1f);
+        //pl.GetPunch();
+
     }
     public void TruePeople(GameObject enemy)
     {
@@ -49,5 +52,13 @@ public class PlayerAction : MonoBehaviour
         plMovement.isGo = false;
         plDrag._sensitivity = 0;
         plMovement.transformKill();
+        enemy.GetComponentInParent<Enemy>().happyParticle.Play();
+        Invoke("GoPlayerReturn", 1f);
+    }
+    public void GoPlayerReturn()
+    {
+        pl.anim.SetTrigger("openhand");
+        plDrag._sensitivity = 0.2f;
+        plMovement.isGo = true;
     }
 }
