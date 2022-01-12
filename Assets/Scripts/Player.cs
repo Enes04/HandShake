@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
+    public GameObject objeler;
     PlayerMovement plMovement;
     Camera mainCam;
     PlayerDrag plDrag;
@@ -22,7 +23,6 @@ public class Player : MonoBehaviour
         plMovement = FindObjectOfType<PlayerMovement>();
         PlayerObjChoose();
         mainCam = Camera.main;
-        anim.SetTrigger("OpenHand");
     }
     
     public void PlayerObjChoose()
@@ -34,16 +34,32 @@ public class Player : MonoBehaviour
         {
             case 0:
                 mygifttype = GiftType.candy;
+                for (int i = 0; i < objeler.transform.childCount; i++)
+                {
+                    objeler.transform.GetChild(i).gameObject.SetActive(false);
+                }
+                objeler.transform.GetChild(rand).gameObject.SetActive(true);
                 break;
             case 1:
                 mygifttype = GiftType.gum;
+                for (int i = 0; i < objeler.transform.childCount; i++)
+                {
+                    objeler.transform.GetChild(i).gameObject.SetActive(false);
+                }
+                objeler.transform.GetChild(rand).gameObject.SetActive(true);
                 break;
             case 2:
                 mygifttype = GiftType.chocolate;
+                for (int i = 0; i < objeler.transform.childCount; i++)
+                {
+                    objeler.transform.GetChild(i).gameObject.SetActive(false);
+                }
+                objeler.transform.GetChild(rand).gameObject.SetActive(true);
                 break;
             default:
                 break;
         }
+        anim.SetTrigger("OpenHand");
     }
     // Update is called once per frame
     void Update()

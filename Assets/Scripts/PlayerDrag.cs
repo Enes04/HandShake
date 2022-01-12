@@ -9,7 +9,7 @@ public class PlayerDrag : MonoBehaviour
     private Vector3 _mouseOffset;
     private Vector3 _rotation;
     private bool _isRotating;
-
+    public float lerpTime;
     void Start()
     {
         _rotation = Vector3.zero;
@@ -21,8 +21,8 @@ public class PlayerDrag : MonoBehaviour
         {
             _mouseOffset = (Input.mousePosition - _mouseReference);
 
-            _rotation.x = Mathf.Lerp(_rotation.x, -(_mouseOffset.y) * _sensitivity, 0.025f);
-            _rotation.y = Mathf.Lerp(_rotation.y, (_mouseOffset.x) * _sensitivity, 0.025f);
+            _rotation.x = Mathf.Lerp(_rotation.x, -(_mouseOffset.y) * _sensitivity, lerpTime);
+            _rotation.y = Mathf.Lerp(_rotation.y, (_mouseOffset.x) * _sensitivity, lerpTime);
 
 
             transform.Rotate(_rotation);

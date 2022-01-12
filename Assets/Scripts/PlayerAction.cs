@@ -38,6 +38,22 @@ public class PlayerAction : MonoBehaviour
     public void WrongPeople(GameObject enemy)
     {
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
+        int rand = Random.Range(0, 3);
+        switch (rand)
+        {
+            case 0:
+                enemy.GetComponentInParent<Animator>().SetTrigger("dontwant");
+                break;
+            case 1:
+                enemy.GetComponentInParent<Animator>().SetTrigger("dontwant1");
+                break;
+            case 2:
+                enemy.GetComponentInParent<Animator>().SetTrigger("dontwant2");
+                break;
+            default: 
+                break;
+        }
+      
         plMovement.isGo = false;
         plDrag._sensitivity = 0;
         plMovement.transformKill();
@@ -60,5 +76,8 @@ public class PlayerAction : MonoBehaviour
         pl.anim.SetTrigger("openhand");
         plDrag._sensitivity = 0.2f;
         plMovement.isGo = true;
+        pl.PlayerObjChoose();
+        plMovement.shakeCam();
+        transform.parent.GetComponentInChildren<HandScript>().hand.SetActive(false);
     }
 }
