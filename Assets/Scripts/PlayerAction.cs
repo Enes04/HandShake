@@ -20,7 +20,7 @@ public class PlayerAction : MonoBehaviour
     {
         if (other.CompareTag("Hand"))
         {
-            if (other.GetComponentInParent<Enemy>().mygiftType == pl.mygifttype)
+            if (other.GetComponentInParent<Enemy>().enemyDollar >= 1)
             {
                 TruePeople(other.gameObject);
             }
@@ -38,6 +38,19 @@ public class PlayerAction : MonoBehaviour
     public void WrongPeople(GameObject enemy)
     {
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
+        pl.playerDollarCount = pl.playerDollarCount - pl.currentDollar;
+        pl.playerText.text = pl.playerDollarCount.ToString();
+        enemy.GetComponentInParent<Enemy>().enemyDollarText.text = (pl.currentDollar + enemy.GetComponentInParent<Enemy>().enemyDollar).ToString();
+        enemy.GetComponentInParent<Enemy>().enemyColliderOff();
+        plMovement.isGo = false;
+        plDrag._sensitivity = 0;
+        plMovement.transformKill();
+        enemy.GetComponentInParent<Enemy>().happyParticle.Play();
+        Invoke("GoPlayerReturn", 1f);
+        //pl.GetPunch();
+    }
+    public void TruePeople(GameObject enemy)
+    {
         int rand = Random.Range(0, 3);
         switch (rand)
         {
@@ -50,25 +63,17 @@ public class PlayerAction : MonoBehaviour
             case 2:
                 enemy.GetComponentInParent<Animator>().SetTrigger("dontwant2");
                 break;
-            default: 
+            default:
                 break;
         }
-      
-        plMovement.isGo = false;
-        plDrag._sensitivity = 0;
-        plMovement.transformKill();
-        enemy.GetComponentInParent<Enemy>().sadParticle.Play();
-        Invoke("GoPlayerReturn", 1f);
-        //pl.GetPunch();
-
-    }
-    public void TruePeople(GameObject enemy)
-    {
+        pl.playerDollarCount = pl.playerDollarCount + enemy.GetComponentInParent<Enemy>().enemyDollar;
+        pl.playerText.text = pl.playerDollarCount.ToString();
+        enemy.GetComponentInParent<Enemy>().enemyDollarText.text = 0.ToString();
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
         plMovement.isGo = false;
         plDrag._sensitivity = 0;
         plMovement.transformKill();
-        enemy.GetComponentInParent<Enemy>().happyParticle.Play();
+        enemy.GetComponentInParent<Enemy>().sadParticle.Play();
         Invoke("GoPlayerReturn", 1f);
     }
     public void GoPlayerReturn()

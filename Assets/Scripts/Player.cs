@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
+    public int playerDollarCount;
     public GameObject objeler;
     PlayerMovement plMovement;
     Camera mainCam;
@@ -13,7 +14,9 @@ public class Player : MonoBehaviour
     public Animator anim;
     public Sprite[] objSprite;
     public Image playerImage;
+    public Text playerText;
     public GiftType mygifttype;
+    public int currentDollar;
 
     public int wrong›nt;
     int shakeCount;
@@ -23,6 +26,7 @@ public class Player : MonoBehaviour
         plMovement = FindObjectOfType<PlayerMovement>();
         PlayerObjChoose();
         mainCam = Camera.main;
+        playerText.text = playerDollarCount.ToString();
     }
     
     public void PlayerObjChoose()
@@ -60,6 +64,7 @@ public class Player : MonoBehaviour
                 break;
         }
         anim.SetTrigger("OpenHand");
+        currentDollar = 10;
     }
     // Update is called once per frame
     void Update()

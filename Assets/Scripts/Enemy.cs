@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
@@ -10,11 +12,15 @@ public class Enemy : MonoBehaviour
     public ParticleSystem sadParticle;
     public ParticleSystem happyParticle;
     Player pl;
+    public int enemyDollar;
+    public TextMeshProUGUI enemyDollarText;
+
     void Start()
     {
         pl = FindObjectOfType<Player>();
         enemycanvas = GetComponentInChildren<Canvas>();
         enemycanvas.worldCamera = Camera.main;
+        enemyDollarText.text = enemyDollar.ToString();
         EnemyStart();
     }
     public void EnemyStart()
@@ -34,9 +40,10 @@ public class Enemy : MonoBehaviour
     }
     public void enemyColliderOff()
     {
-        for (int i = 0; i < enemyColliders.Length; i++)
+        EnemyCollider currentCollider = GetComponentInChildren<EnemyCollider>();
+        for (int i = 0; i < 2; i++)
         {
-            enemyColliders[i].enabled = false;
+            currentCollider.colliders[i].gameObject.SetActive(false);
         }
     }
     void Update()
@@ -46,4 +53,6 @@ public class Enemy : MonoBehaviour
         var rotation = Quaternion.LookRotation(-1*lookrot);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 10f);
     }
+
+ 
 }
