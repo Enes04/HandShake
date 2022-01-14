@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class Player : MonoBehaviour
         mainCam = Camera.main;
         playerText.text = playerDollarCount.ToString();
     }
-    
+
     public void PlayerObjChoose()
     {
         int rand = Random.Range(0, objSprite.Length);
@@ -64,7 +65,8 @@ public class Player : MonoBehaviour
                 break;
         }
         anim.SetTrigger("OpenHand");
-        currentDollar = 10;
+        currentDollar = Random.Range(10, 40);
+        GameManager.instance.handUi.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "$" + currentDollar.ToString();
     }
     // Update is called once per frame
     void Update()
@@ -116,6 +118,7 @@ public class Player : MonoBehaviour
             mainCam.transform.DOLocalRotateQuaternion(Quaternion.Euler(-90, 0, 0), 0.5f).OnComplete(() =>
                {
                    mainCam.transform.GetChild(0).gameObject.SetActive(true);
+                   GameManager.instance.GameFail();
                });
         }
     }
@@ -131,5 +134,5 @@ public class Player : MonoBehaviour
         }
         wrong›nt++;
     }
-    
+
 }

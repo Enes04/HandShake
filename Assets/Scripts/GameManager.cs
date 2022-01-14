@@ -5,15 +5,34 @@ using UnityEngine;
 public enum GiftType { candy , gum , chocolate };
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public ParticleSystem finishParticle;
+    public GameObject winP;
+    public GameObject loseP;
+    public GameObject handUi;
+    public GameObject hands;
+
+    public static GameManager instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    public void GameFail()
+    {
+        loseP.SetActive(true);
+    }
     void Start()
     {
         Application.targetFrameRate = 60;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        FollowTheHand();
+    }
+    public void FollowTheHand()
+    {
+        Vector3 goldPos = Camera.main.WorldToScreenPoint(hands.transform.position);
+        handUi.transform.position = goldPos;
     }
 }

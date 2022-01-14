@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
         pl = FindObjectOfType<Player>();
         enemycanvas = GetComponentInChildren<Canvas>();
         enemycanvas.worldCamera = Camera.main;
-        enemyDollarText.text = enemyDollar.ToString();
+        enemyDollarText.text = "$" + enemyDollar.ToString();
         EnemyStart();
     }
     public void EnemyStart()

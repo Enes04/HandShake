@@ -33,20 +33,35 @@ public class PlayerAction : MonoBehaviour
         {
             WrongPeople(other.gameObject);
         }
+        if(other.CompareTag("Finish"))
+        {
+            FinishGames(other.gameObject.transform.parent.GetChild(1).gameObject);
+        }
     }
-
+    public void FinishGames(GameObject finisPos)
+    {
+        playerStop();
+        //pl.transform.transform.DOMoveZ(finisPos.transform.position.z , 2f);
+        //pl.transform.DORotateQuaternion();
+    }
     public void WrongPeople(GameObject enemy)
     {
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
+        enemy.GetComponentInParent<Enemy>().enemyDollarText.text = "$"+(pl.currentDollar + enemy.GetComponentInParent<Enemy>().enemyDollar).ToString();
+        enemy.GetComponentInParent<Enemy>().happyParticle.Play();
         pl.playerDollarCount = pl.playerDollarCount - pl.currentDollar;
         pl.playerText.text = pl.playerDollarCount.ToString();
-        enemy.GetComponentInParent<Enemy>().enemyDollarText.text = (pl.currentDollar + enemy.GetComponentInParent<Enemy>().enemyDollar).ToString();
-        enemy.GetComponentInParent<Enemy>().enemyColliderOff();
-        plMovement.isGo = false;
-        plDrag._sensitivity = 0;
-        plMovement.transformKill();
-        enemy.GetComponentInParent<Enemy>().happyParticle.Play();
-        Invoke("GoPlayerReturn", 1f);
+      
+        if (pl.playerDollarCount <=0)
+        {
+            playerStop();
+            pl.FallCam();
+        }
+        else
+        {
+            playerStop();
+            Invoke("GoPlayerReturn", 1f);
+        }
         //pl.GetPunch();
     }
     public void TruePeople(GameObject enemy)
@@ -68,13 +83,18 @@ public class PlayerAction : MonoBehaviour
         }
         pl.playerDollarCount = pl.playerDollarCount + enemy.GetComponentInParent<Enemy>().enemyDollar;
         pl.playerText.text = pl.playerDollarCount.ToString();
-        enemy.GetComponentInParent<Enemy>().enemyDollarText.text = 0.ToString();
+        enemy.GetComponentInParent<Enemy>().enemyDollarText.text ="$"+0.ToString();
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
+        enemy.GetComponentInParent<Enemy>().sadParticle.Play();
+        playerStop();
+        Invoke("GoPlayerReturn", 1f);
+    }
+
+    public void playerStop()
+    {
         plMovement.isGo = false;
         plDrag._sensitivity = 0;
         plMovement.transformKill();
-        enemy.GetComponentInParent<Enemy>().sadParticle.Play();
-        Invoke("GoPlayerReturn", 1f);
     }
     public void GoPlayerReturn()
     {
