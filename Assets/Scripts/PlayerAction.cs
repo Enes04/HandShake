@@ -8,12 +8,13 @@ public class PlayerAction : MonoBehaviour
     PlayerMovement plMovement;
     PlayerDrag plDrag;
     Player pl;
-
+    FinishPeoples fp;
     private void Start()
     {
         plMovement = FindObjectOfType<PlayerMovement>();
         plDrag = FindObjectOfType<PlayerDrag>();
         pl = FindObjectOfType<Player>();
+        fp = FindObjectOfType<FinishPeoples>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -42,7 +43,8 @@ public class PlayerAction : MonoBehaviour
     {
         playerStop();
         //pl.transform.transform.DOMoveZ(finisPos.transform.position.z , 2f);
-        //pl.transform.DORotateQuaternion();
+        pl.transform.DORotateQuaternion(Quaternion.Euler(0,180,0),1f);
+        fp.PeopleLine();
     }
     public void WrongPeople(GameObject enemy)
     {
@@ -81,6 +83,7 @@ public class PlayerAction : MonoBehaviour
             default:
                 break;
         }
+        fp.addPeople(enemy);
         pl.playerDollarCount = pl.playerDollarCount + enemy.GetComponentInParent<Enemy>().enemyDollar;
         pl.playerText.text = pl.playerDollarCount.ToString();
         enemy.GetComponentInParent<Enemy>().enemyDollarText.text ="$"+0.ToString();
