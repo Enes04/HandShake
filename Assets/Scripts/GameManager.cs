@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject loseP;
     public GameObject handUi;
     public GameObject hands;
+    public GameObject canBar;
 
     public static GameManager instance;
     private void Awake()

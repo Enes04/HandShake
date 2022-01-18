@@ -9,6 +9,7 @@ public class PlayerAction : MonoBehaviour
     PlayerDrag plDrag;
     Player pl;
     FinishPeoples fp;
+    int failCount;
     private void Start()
     {
         plMovement = FindObjectOfType<PlayerMovement>();
@@ -32,6 +33,8 @@ public class PlayerAction : MonoBehaviour
         }
         if (other.CompareTag("Body"))
         {
+            GameManager.instance.canBar.transform.GetChild(failCount).gameObject.SetActive(false);
+           
             WrongPeople(other.gameObject);
         }
         if(other.CompareTag("Finish"))
@@ -53,8 +56,8 @@ public class PlayerAction : MonoBehaviour
         enemy.GetComponentInParent<Enemy>().happyParticle.Play();
         pl.playerDollarCount = pl.playerDollarCount - pl.currentDollar;
         pl.playerText.text = pl.playerDollarCount.ToString();
-      
-        if (pl.playerDollarCount <=0)
+        failCount++;
+        if (pl.playerDollarCount <=0 || failCount >= 2)
         {
             playerStop();
             pl.FallCam();

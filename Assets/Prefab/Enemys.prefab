@@ -3265,7 +3265,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.197, y: 1.4958}
+  m_AnchoredPosition: {x: 0.197, y: 1.9958}
   m_SizeDelta: {x: 0.6341, y: 0.6315}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3790059722461985129
@@ -3504,7 +3504,7 @@ MonoBehaviour:
   enemycanvas: {fileID: 0}
   sadParticle: {fileID: 3790059723566034748}
   happyParticle: {fileID: 3790059723250468896}
-  enemyDollar: 15
+  enemyDollar: 0
   enemyDollarText: {fileID: 7723182694668859355}
 --- !u!114 &7723182694491126288
 MonoBehaviour:
