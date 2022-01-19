@@ -30,9 +30,9 @@ public class FinishPeoples : MonoBehaviour
             peoples[i].GetComponent<Enemy>().enemyDollarText.transform.parent.gameObject.SetActive(false);
             int rand = Random.Range(0, 2);
             if (rand == 0)
-                peoples[i].GetComponentInChildren<Animator>().SetTrigger("win1");
+                peoples[i].GetComponentInChildren<Animator>().SetTrigger("dance");
             else if(rand == 1)
-                peoples[i].GetComponentInChildren<Animator>().SetTrigger("win2");
+                peoples[i].GetComponentInChildren<Animator>().SetTrigger("dance");
         }
     }
 }

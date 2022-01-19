@@ -11,8 +11,11 @@ public class GameManager : MonoBehaviour
     public GameObject handUi;
     public GameObject hands;
     public GameObject canBar;
+    public GameObject playerfinishPos;
+    //public Gam
 
     public static GameManager instance;
+
     private void Awake()
     {
         instance = this;

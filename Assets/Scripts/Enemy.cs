@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
         enemycanvas.worldCamera = Camera.main;
         enemyDollarText.text = "$" + enemyDollar.ToString();
         EnemyStart();
+        GetComponentInChildren<Outline>().enabled = false;
     }
     public void EnemyStart()
     {
@@ -53,6 +54,4 @@ public class Enemy : MonoBehaviour
         var rotation = Quaternion.LookRotation(-1*lookrot);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 10f);
     }
-
- 
 }

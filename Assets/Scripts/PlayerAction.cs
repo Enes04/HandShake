@@ -10,6 +10,7 @@ public class PlayerAction : MonoBehaviour
     Player pl;
     FinishPeoples fp;
     int failCount;
+
     private void Start()
     {
         plMovement = FindObjectOfType<PlayerMovement>();
@@ -28,38 +29,44 @@ public class PlayerAction : MonoBehaviour
             }
             else
             {
-                WrongPeople(other.gameObject);
+                GameManager.instance.canBar.transform.GetChild(failCount).gameObject.SetActive(false);
+                homeless(other.gameObject);
             }
         }
         if (other.CompareTag("Body"))
         {
             GameManager.instance.canBar.transform.GetChild(failCount).gameObject.SetActive(false);
-           
+            //pl.shakeCam();
             WrongPeople(other.gameObject);
+            
         }
         if(other.CompareTag("Finish"))
         {
             FinishGames(other.gameObject.transform.parent.GetChild(1).gameObject);
+            plMovement.transformKill();
         }
     }
     public void FinishGames(GameObject finisPos)
     {
         playerStop();
-        //pl.transform.transform.DOMoveZ(finisPos.transform.position.z , 2f);
-        pl.transform.DORotateQuaternion(Quaternion.Euler(0,180,0),1f);
+        pl.anim.SetTrigger("dance");
+        pl.anim.applyRootMotion = true;
+        pl.anim.transform.DOMove(GameManager.instance.playerfinishPos.transform.position, 2f);
+        pl.anim.transform.localScale = new Vector3(1, 1, 1);
+        //pl.transform.DORotateQuaternion(Quaternion.Euler(0,180,0),1f);
         fp.PeopleLine();
     }
-    public void WrongPeople(GameObject enemy)
+    public void homeless(GameObject enemy)
     {
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
-        enemy.GetComponentInParent<Enemy>().enemyDollarText.text = "$"+(pl.currentDollar + enemy.GetComponentInParent<Enemy>().enemyDollar).ToString();
+        enemy.GetComponentInParent<Enemy>().enemyDollarText.text = "$" + (pl.currentDollar + enemy.GetComponentInParent<Enemy>().enemyDollar).ToString();
         enemy.GetComponentInParent<Enemy>().happyParticle.Play();
         pl.playerDollarCount = pl.playerDollarCount - pl.currentDollar;
         pl.playerText.text = pl.playerDollarCount.ToString();
-        failCount++;
-        if (pl.playerDollarCount <=0 || failCount >= 2)
+        if (pl.playerDollarCount <= 0 || failCount >= 2)
         {
             playerStop();
+            plMovement.transformKill();
             pl.FallCam();
         }
         else
@@ -67,7 +74,29 @@ public class PlayerAction : MonoBehaviour
             playerStop();
             Invoke("GoPlayerReturn", 1f);
         }
-        //pl.GetPunch();
+        failCount++;
+    }
+    public void WrongPeople(GameObject enemy)
+    {
+        enemy.GetComponentInParent<Animator>().SetTrigger("hit");
+        enemy.GetComponentInParent<Enemy>().enemyColliderOff();
+        enemy.GetComponentInParent<Enemy>().enemyDollarText.text = "$"+(pl.currentDollar + enemy.GetComponentInParent<Enemy>().enemyDollar).ToString();
+        enemy.GetComponentInParent<Enemy>().happyParticle.Play();
+        pl.playerDollarCount = pl.playerDollarCount - pl.currentDollar;
+        pl.playerText.text = pl.playerDollarCount.ToString();
+        
+        if (pl.playerDollarCount <=0 || failCount >= 2)
+        {
+            playerStop();
+            plMovement.transformKill();
+            pl.FallCam();
+        }
+        else
+        {
+            playerStop();
+            Invoke("GoPlayerReturn", 1f);
+        }
+        failCount++;
     }
     public void TruePeople(GameObject enemy)
     {
@@ -93,6 +122,7 @@ public class PlayerAction : MonoBehaviour
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
         enemy.GetComponentInParent<Enemy>().sadParticle.Play();
         playerStop();
+        plMovement.transformKill();
         Invoke("GoPlayerReturn", 1f);
     }
 
@@ -100,7 +130,6 @@ public class PlayerAction : MonoBehaviour
     {
         plMovement.isGo = false;
         plDrag._sensitivity = 0;
-        plMovement.transformKill();
     }
     public void GoPlayerReturn()
     {

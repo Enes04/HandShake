@@ -91,6 +91,7 @@ public class Player : MonoBehaviour
         }
         else
         {
+            print("b");
             shakeCount = 0;
             plMovement.isGo = true;
             plDrag._sensitivity = 0.2f;
