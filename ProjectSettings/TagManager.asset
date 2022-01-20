@@ -9,6 +9,7 @@ TagManager:
   - finishpoints
   - Canvas
   - playerfinish
+  - camerafinish
   layers:
   - Default
   - TransparentFX

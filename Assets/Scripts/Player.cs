@@ -123,6 +123,15 @@ public class Player : MonoBehaviour
                });
         }
     }
+    public void FailCondition()
+    {
+        transform.GetChild(1).transform.DOLocalMoveY(-1.7f, 0.5f).OnComplete(() =>
+        {
+            anim.SetTrigger("fall");
+        });
+        mainCam.transform.DOLocalMove(new Vector3(0, 3, -6), 1f).OnComplete(() => { GameManager.instance.GameFail(); });
+        mainCam.transform.DOLookAt(transform.position, 0.5f);
+    }
     public void GetPunch()
     {
         if (wrong›nt < 2)

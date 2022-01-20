@@ -53,11 +53,28 @@ public class PlayerAction : MonoBehaviour
         pl.anim.applyRootMotion = true;
         pl.anim.transform.DOMove(GameManager.instance.playerfinishPos.transform.position, 2f);
         pl.anim.transform.localScale = new Vector3(1, 1, 1);
+        Camera.main.transform.parent = null;
+        GameObject currentposCamera=GameObject.FindGameObjectWithTag("camerafinish");
+        Camera.main.transform.position = currentposCamera.transform.position;
+        Camera.main.transform.rotation = Quaternion.Euler(15, 180, 0);
         //pl.transform.DORotateQuaternion(Quaternion.Euler(0,180,0),1f);
         fp.PeopleLine();
     }
     public void homeless(GameObject enemy)
     {
+        if (enemy.GetComponentInParent<Enemy>().myenemyType == enemyType.gun)
+        {
+            enemy.GetComponentInChildren<EnemyHandScript>().silah.SetActive(true);
+        }
+        if (enemy.GetComponentInParent<Enemy>().myenemyType == enemyType.knife)
+        {
+            enemy.GetComponentInChildren<EnemyHandScript>().bicak.SetActive(true);
+        }
+        if (enemy.GetComponentInParent<Enemy>().myenemyType == enemyType.levye)
+        {
+            enemy.GetComponentInChildren<EnemyHandScript>().levye.SetActive(true);
+        }
+
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
         enemy.GetComponentInParent<Enemy>().enemyDollarText.text = "$" + (pl.currentDollar + enemy.GetComponentInParent<Enemy>().enemyDollar).ToString();
         enemy.GetComponentInParent<Enemy>().happyParticle.Play();
@@ -89,7 +106,7 @@ public class PlayerAction : MonoBehaviour
         {
             playerStop();
             plMovement.transformKill();
-            pl.FallCam();
+            pl.FailCondition();
         }
         else
         {
