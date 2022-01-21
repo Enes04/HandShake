@@ -23,6 +23,7 @@ public class PlayerAction : MonoBehaviour
     {
         if (other.CompareTag("Hand"))
         {
+            VibrationManager.Instance.Pop();
             if (other.GetComponentInParent<Enemy>().enemyDollar >= 1)
             {
                 TruePeople(other.gameObject);
@@ -35,13 +36,15 @@ public class PlayerAction : MonoBehaviour
         }
         if (other.CompareTag("Body"))
         {
+            VibrationManager.Instance.Pop();
             GameManager.instance.canBar.transform.GetChild(failCount).gameObject.SetActive(false);
             //pl.shakeCam();
             WrongPeople(other.gameObject);
-            
+
         }
-        if(other.CompareTag("Finish"))
+        if (other.CompareTag("Finish"))
         {
+            VibrationManager.Instance.Pop();
             FinishGames(other.gameObject.transform.parent.GetChild(1).gameObject);
             plMovement.transformKill();
         }
@@ -54,7 +57,8 @@ public class PlayerAction : MonoBehaviour
         pl.anim.transform.DOMove(GameManager.instance.playerfinishPos.transform.position, 2f);
         pl.anim.transform.localScale = new Vector3(1, 1, 1);
         Camera.main.transform.parent = null;
-        GameObject currentposCamera=GameObject.FindGameObjectWithTag("camerafinish");
+        GameObject currentposCamera = GameObject.FindGameObjectWithTag("camerafinish");
+        GameManager.instance.handUi.SetActive(false);
         Camera.main.transform.position = currentposCamera.transform.position;
         Camera.main.transform.rotation = Quaternion.Euler(15, 180, 0);
         //pl.transform.DORotateQuaternion(Quaternion.Euler(0,180,0),1f);
@@ -65,14 +69,17 @@ public class PlayerAction : MonoBehaviour
         if (enemy.GetComponentInParent<Enemy>().myenemyType == enemyType.gun)
         {
             enemy.GetComponentInChildren<EnemyHandScript>().silah.SetActive(true);
+
         }
         if (enemy.GetComponentInParent<Enemy>().myenemyType == enemyType.knife)
         {
             enemy.GetComponentInChildren<EnemyHandScript>().bicak.SetActive(true);
+            enemy.GetComponentInParent<Animator>().SetTrigger("levye");
         }
         if (enemy.GetComponentInParent<Enemy>().myenemyType == enemyType.levye)
         {
             enemy.GetComponentInChildren<EnemyHandScript>().levye.SetActive(true);
+            enemy.GetComponentInParent<Animator>().SetTrigger("levye");
         }
 
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
@@ -84,7 +91,7 @@ public class PlayerAction : MonoBehaviour
         {
             playerStop();
             plMovement.transformKill();
-            pl.FallCam();
+            pl.FailCondition();
         }
         else
         {
@@ -97,12 +104,12 @@ public class PlayerAction : MonoBehaviour
     {
         enemy.GetComponentInParent<Animator>().SetTrigger("hit");
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
-        enemy.GetComponentInParent<Enemy>().enemyDollarText.text = "$"+(pl.currentDollar + enemy.GetComponentInParent<Enemy>().enemyDollar).ToString();
+        enemy.GetComponentInParent<Enemy>().enemyDollarText.text = "$" + (pl.currentDollar + enemy.GetComponentInParent<Enemy>().enemyDollar).ToString();
         enemy.GetComponentInParent<Enemy>().happyParticle.Play();
         pl.playerDollarCount = pl.playerDollarCount - pl.currentDollar;
         pl.playerText.text = pl.playerDollarCount.ToString();
-        
-        if (pl.playerDollarCount <=0 || failCount >= 2)
+
+        if (pl.playerDollarCount <= 0 || failCount >= 2)
         {
             playerStop();
             plMovement.transformKill();
@@ -135,7 +142,7 @@ public class PlayerAction : MonoBehaviour
         fp.addPeople(enemy);
         pl.playerDollarCount = pl.playerDollarCount + enemy.GetComponentInParent<Enemy>().enemyDollar;
         pl.playerText.text = pl.playerDollarCount.ToString();
-        enemy.GetComponentInParent<Enemy>().enemyDollarText.text ="$"+0.ToString();
+        enemy.GetComponentInParent<Enemy>().enemyDollarText.text = "$" + 0.ToString();
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
         enemy.GetComponentInParent<Enemy>().sadParticle.Play();
         playerStop();

@@ -28,6 +28,7 @@ public class FinishPeoples : MonoBehaviour
         {
             peoples[i].transform.position = finishPoints.transform.GetChild(i).transform.position;
             peoples[i].GetComponent<Enemy>().enemyDollarText.transform.parent.gameObject.SetActive(false);
+            peoples[i].GetComponentInChildren<Outline>().enabled = false;
             int rand = Random.Range(0, 2);
             if (rand == 0)
                 peoples[i].GetComponentInChildren<Animator>().SetTrigger("dance");

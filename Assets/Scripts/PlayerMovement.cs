@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         mainCam = Camera.main;
-        shakeCam();
+     //   shakeCam();
     }
     void Update()
     {
@@ -34,11 +34,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void shakeCam()
     {
-        mainCam.transform.DOLocalMove(new Vector3(cameraposX, -camerposY, mainCam.transform.localEulerAngles.z), cameraShakeSpeed).OnComplete(() =>
+        mainCam.transform.localPosition = new Vector3(0, 0, 0);
+        mainCam.transform.DOLocalMove(new Vector3(0.01f, -0.01f,0), cameraShakeSpeed).OnComplete(() =>
         {
             mainCam.transform.DOLocalMove(new Vector3(0, 0, 0f), cameraShakeSpeed).OnComplete(() =>
             {
-                mainCam.transform.DOLocalMove(new Vector3(cameraposX, camerposY, 0f), cameraShakeSpeed).OnComplete(()=>
+                mainCam.transform.DOLocalMove(new Vector3(0.01f, 0.01f, 0f), cameraShakeSpeed).OnComplete(()=>
                 {
                     mainCam.transform.DOLocalMove(new Vector3(0, 0, 0f), cameraShakeSpeed).OnComplete(() => shakeCam());
                 });

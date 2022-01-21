@@ -69,6 +69,13 @@ public class Player : MonoBehaviour
         GameManager.instance.handUi.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "$" + currentDollar.ToString();
     }
     // Update is called once per frame
+    public void closeDollar()
+    {
+        for (int i = 0; i < objeler.transform.childCount; i++)
+        {
+            objeler.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
     void Update()
     {
 
@@ -127,10 +134,12 @@ public class Player : MonoBehaviour
     {
         transform.GetChild(1).transform.DOLocalMoveY(-1.7f, 0.5f).OnComplete(() =>
         {
+            anim.applyRootMotion = true;
             anim.SetTrigger("fall");
         });
+        GameManager.instance.handUi.SetActive(false);
         mainCam.transform.DOLocalMove(new Vector3(0, 3, -6), 1f).OnComplete(() => { GameManager.instance.GameFail(); });
-        mainCam.transform.DOLookAt(transform.position, 0.5f);
+        mainCam.transform.DOLocalRotateQuaternion(Quaternion.Euler(45,0,0), 1f);
     }
     public void GetPunch()
     {
