@@ -78,7 +78,14 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-
+        if (transform.position.x < -2)
+        {
+            transform.position = new Vector3(-1.99f, transform.position.y, transform.position.z);
+        }
+        if (transform.position.x > 3)
+        {
+            transform.position = new Vector3(2.99f, transform.position.y, transform.position.z);
+        }
     }
     public void shakeCam()
     {
@@ -139,7 +146,7 @@ public class Player : MonoBehaviour
         });
         GameManager.instance.handUi.SetActive(false);
         mainCam.transform.DOLocalMove(new Vector3(0, 3, -6), 1f).OnComplete(() => { GameManager.instance.GameFail(); });
-        mainCam.transform.DOLocalRotateQuaternion(Quaternion.Euler(45,0,0), 1f);
+        mainCam.transform.DOLocalRotateQuaternion(Quaternion.Euler(45, 0, 0), 1f);
     }
     public void GetPunch()
     {
