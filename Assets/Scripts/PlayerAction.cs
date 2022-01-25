@@ -48,6 +48,16 @@ public class PlayerAction : MonoBehaviour
             FinishGames(other.gameObject.transform.parent.GetChild(1).gameObject);
             plMovement.transformKill();
         }
+        if (other.CompareTag("tuto1"))
+        {
+            GameManager.instance.tuto1.SetActive(true);
+            Time.timeScale = 0;
+        }
+        if (other.CompareTag("tuto2"))
+        {
+            GameManager.instance.tuto2.SetActive(true);
+            Time.timeScale = 0;
+        }
     }
     public void FinishGames(GameObject finisPos)
     {
@@ -75,11 +85,13 @@ public class PlayerAction : MonoBehaviour
         {
             enemy.GetComponentInChildren<EnemyHandScript>().bicak.SetActive(true);
             enemy.GetComponentInParent<Animator>().SetTrigger("levye");
+            Invoke("ShakeCams", 0.75f);
         }
         if (enemy.GetComponentInParent<Enemy>().myenemyType == enemyType.levye)
         {
             enemy.GetComponentInChildren<EnemyHandScript>().levye.SetActive(true);
             enemy.GetComponentInParent<Animator>().SetTrigger("levye");
+            Invoke("ShakeCams", 0.75f);
         }
 
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
@@ -99,6 +111,10 @@ public class PlayerAction : MonoBehaviour
             Invoke("GoPlayerReturn", 1f);
         }
         failCount++;
+    }
+    public void ShakeCams()
+    {
+        pl.shakeCam();
     }
     public void WrongPeople(GameObject enemy)
     {
@@ -158,7 +174,7 @@ public class PlayerAction : MonoBehaviour
     public void GoPlayerReturn()
     {
         pl.anim.SetTrigger("openhand");
-        plDrag._sensitivity = 0.2f;
+        plDrag._sensitivity = 0.05f;
         plMovement.isGo = true;
         pl.PlayerObjChoose();
         plMovement.shakeCam();

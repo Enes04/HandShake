@@ -89,15 +89,15 @@ public class Player : MonoBehaviour
     }
     public void shakeCam()
     {
-        if (shakeCount < 10)
+        if (shakeCount < 3)
         {
-            mainCam.transform.DOLocalMove(new Vector3(0.01f, -0.01f, mainCam.transform.localEulerAngles.z), 0.01f).OnComplete(() =>
+            mainCam.transform.DOLocalMove(new Vector3(0.03f, -0.03f, mainCam.transform.localEulerAngles.z), 0.02f).OnComplete(() =>
             {
-                mainCam.transform.DOLocalMove(new Vector3(0, 0, 0f), 0.01f).OnComplete(() =>
+                mainCam.transform.DOLocalMove(new Vector3(0, 0, 0f), 0.02f).OnComplete(() =>
                 {
-                    mainCam.transform.DOLocalMove(new Vector3(0.01f, 0.01f, 0f), 0.01f).OnComplete(() =>
+                    mainCam.transform.DOLocalMove(new Vector3(0.03f, 0.03f, 0f), 0.02f).OnComplete(() =>
                     {
-                        mainCam.transform.DOLocalMove(new Vector3(0, 0, 0f), 0.01f).OnComplete(() => shakeCam());
+                        mainCam.transform.DOLocalMove(new Vector3(0, 0, 0f), 0.02f).OnComplete(() => shakeCam());
                     });
                 });
             });
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
             print("b");
             shakeCount = 0;
             plMovement.isGo = true;
-            plDrag._sensitivity = 0.2f;
+            plDrag._sensitivity = 0.05f;
         }
     }
 

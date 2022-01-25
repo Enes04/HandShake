@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public GameObject playerfinishPos;
     public GameObject[] levels;
     PlayerMovement plMovement;
+    public GameObject tutorials;
+    public GameObject tuto1;
+    public GameObject tuto2;
 
     public static GameManager instance;
 
@@ -26,13 +29,14 @@ public class GameManager : MonoBehaviour
         if (!PlayerPrefs.HasKey("Level"))
         {
             PlayerPrefs.SetInt("Level", 0);
+            tutorials.SetActive(true);
         }
         levels[PlayerPrefs.GetInt("Level") % 5].gameObject.SetActive(true);
         
     }
     public void startGame()
     {
-        plMovement.speed = 2;
+        plMovement.speed = 1.5f;
         plMovement.shakeCam();
     }
     public void GameFail()
@@ -61,5 +65,9 @@ public class GameManager : MonoBehaviour
     public void TryLevel()
     {
         SceneManager.LoadSceneAsync("MainGame");
+    }
+    public void CloseTutorial()
+    {
+        Time.timeScale = 1;
     }
 }

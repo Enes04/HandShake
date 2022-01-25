@@ -10,6 +10,8 @@ TagManager:
   - Canvas
   - playerfinish
   - camerafinish
+  - tuto1
+  - tuto2
   layers:
   - Default
   - TransparentFX
