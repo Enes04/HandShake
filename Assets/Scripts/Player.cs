@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
             print("b");
             shakeCount = 0;
             plMovement.isGo = true;
-            plDrag._sensitivity = 0.05f;
+            plDrag._sensitivity = 0.03f;
         }
     }
 
@@ -144,6 +144,7 @@ public class Player : MonoBehaviour
             anim.applyRootMotion = true;
             anim.SetTrigger("fall");
         });
+        GameObject.FindObjectOfType<HandScript>().GetComponent<MeshRenderer>().enabled = false;
         GameManager.instance.handUi.SetActive(false);
         mainCam.transform.DOLocalMove(new Vector3(0, 3, -6), 1f).OnComplete(() => { GameManager.instance.GameFail(); });
         mainCam.transform.DOLocalRotateQuaternion(Quaternion.Euler(45, 0, 0), 1f);

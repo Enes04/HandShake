@@ -64,13 +64,15 @@ public class PlayerAction : MonoBehaviour
         playerStop();
         pl.anim.SetTrigger("dance");
         pl.anim.applyRootMotion = true;
-        pl.anim.transform.DOMove(GameManager.instance.playerfinishPos.transform.position, 2f);
+        pl.anim.transform.DOMove(GameManager.instance.playerfinishPos.transform.position, 1f);
         pl.anim.transform.localScale = new Vector3(1, 1, 1);
         Camera.main.transform.parent = null;
         GameObject currentposCamera = GameObject.FindGameObjectWithTag("camerafinish");
         GameManager.instance.handUi.SetActive(false);
+        GameObject.FindObjectOfType<HandScript>().GetComponent<MeshRenderer>().enabled = false;
         Camera.main.transform.position = currentposCamera.transform.position;
         Camera.main.transform.rotation = Quaternion.Euler(15, 180, 0);
+        GameManager.instance.winP.gameObject.SetActive(true);
         //pl.transform.DORotateQuaternion(Quaternion.Euler(0,180,0),1f);
         fp.PeopleLine();
     }
@@ -163,6 +165,7 @@ public class PlayerAction : MonoBehaviour
         enemy.GetComponentInParent<Enemy>().sadParticle.Play();
         playerStop();
         plMovement.transformKill();
+
         Invoke("GoPlayerReturn", 1f);
     }
 
@@ -174,7 +177,7 @@ public class PlayerAction : MonoBehaviour
     public void GoPlayerReturn()
     {
         pl.anim.SetTrigger("openhand");
-        plDrag._sensitivity = 0.05f;
+        plDrag._sensitivity = 0.03f;
         plMovement.isGo = true;
         pl.PlayerObjChoose();
         plMovement.shakeCam();
