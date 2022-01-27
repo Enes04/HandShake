@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
+
 public class Player : MonoBehaviour
 {
     public int playerDollarCount;
@@ -106,9 +107,9 @@ public class Player : MonoBehaviour
         else
         {
             print("b");
-            shakeCount = 0;
-            plMovement.isGo = true;
-            plDrag._sensitivity = 0.03f;
+           // shakeCount = 0;
+           // plMovement.isGo = true;
+           // plDrag._sensitivity = 0.03f;
         }
     }
 
@@ -146,6 +147,7 @@ public class Player : MonoBehaviour
         });
         GameObject.FindObjectOfType<HandScript>().GetComponent<MeshRenderer>().enabled = false;
         GameManager.instance.handUi.SetActive(false);
+        GameManager.instance.failCon();
         mainCam.transform.DOLocalMove(new Vector3(0, 3, -6), 1f).OnComplete(() => { GameManager.instance.GameFail(); });
         mainCam.transform.DOLocalRotateQuaternion(Quaternion.Euler(45, 0, 0), 1f);
     }

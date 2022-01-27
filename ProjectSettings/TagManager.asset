@@ -12,6 +12,7 @@ TagManager:
   - camerafinish
   - tuto1
   - tuto2
+  - MainCanvas
   layers:
   - Default
   - TransparentFX

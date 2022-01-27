@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+//using ElephantSDK;
+//using GameAnalyticsSDK;
 public enum GiftType { candy, gum, chocolate };
 public class GameManager : MonoBehaviour
 {
@@ -32,7 +33,15 @@ public class GameManager : MonoBehaviour
             tutorials.SetActive(true);
         }
         levels[PlayerPrefs.GetInt("Level") % 5].gameObject.SetActive(true);
-        
+#if UNITY_IOS
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            if (ElephantIOS.getConsentStatus() == "Authorized")
+            {
+                GameAnalytics.Initialize();
+            }
+        }
+#endif
     }
     public void startGame()
     {
@@ -48,6 +57,32 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 60;
     }
 
+    public void winCon()
+    {
+#if UNITY_IOS
+            if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                if (ElephantIOS.getConsentStatus() == "Authorized")
+                {
+                    Elephant.LevelCompleted(PlayerPrefs.GetInt("Level"));
+                    GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, PlayerPrefs.GetInt("Level").ToString());
+                }
+            }
+#endif
+    }
+    public void failCon()
+    {
+#if UNITY_IOS
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            if (ElephantIOS.getConsentStatus() == "Authorized")
+            {
+                Elephant.LevelFailed(PlayerPrefs.GetInt("Level"));
+                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, PlayerPrefs.GetInt("Level").ToString());
+            }
+        }
+#endif
+    }
     void Update()
     {
         FollowTheHand();

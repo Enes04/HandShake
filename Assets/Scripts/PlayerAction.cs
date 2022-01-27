@@ -10,6 +10,8 @@ public class PlayerAction : MonoBehaviour
     Player pl;
     FinishPeoples fp;
     int failCount;
+    Canvas canvasMain;
+    int coincount;
 
     private void Start()
     {
@@ -17,6 +19,7 @@ public class PlayerAction : MonoBehaviour
         plDrag = FindObjectOfType<PlayerDrag>();
         pl = FindObjectOfType<Player>();
         fp = FindObjectOfType<FinishPeoples>();
+        canvasMain = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -62,6 +65,7 @@ public class PlayerAction : MonoBehaviour
     public void FinishGames(GameObject finisPos)
     {
         playerStop();
+        GameManager.instance.winCon();
         pl.anim.SetTrigger("dance");
         pl.anim.applyRootMotion = true;
         pl.anim.transform.DOMove(GameManager.instance.playerfinishPos.transform.position, 1f);
@@ -76,24 +80,47 @@ public class PlayerAction : MonoBehaviour
         //pl.transform.DORotateQuaternion(Quaternion.Euler(0,180,0),1f);
         fp.PeopleLine();
     }
+    IEnumerator coinGoes()
+    {
+        yield return new WaitForSeconds(0.06f);
+        coinGo();
+    }
+    public void coinGo()
+    {
+        if(coincount<5)
+        {
+            GameObject current = Instantiate(Resources.Load<GameObject>("GoldImage"), canvasMain.transform);
+            Vector3 goldpos = Camera.main.WorldToScreenPoint(this.transform.position);
+            current.transform.position = goldpos;
+            current.transform.DOLocalMove(canvasMain.transform.GetChild(0).transform.localPosition, 1f).OnComplete(() =>
+            {
+                Destroy(current);
+            });
+            coincount++;
+            StartCoroutine(coinGoes());
+        }else
+        {
+            coincount = 0;
+        }
+      
+    }
     public void homeless(GameObject enemy)
     {
         if (enemy.GetComponentInParent<Enemy>().myenemyType == enemyType.gun)
         {
             enemy.GetComponentInChildren<EnemyHandScript>().silah.SetActive(true);
-
         }
         if (enemy.GetComponentInParent<Enemy>().myenemyType == enemyType.knife)
         {
             enemy.GetComponentInChildren<EnemyHandScript>().bicak.SetActive(true);
             enemy.GetComponentInParent<Animator>().SetTrigger("levye");
-            Invoke("ShakeCams", 0.75f);
+           
         }
         if (enemy.GetComponentInParent<Enemy>().myenemyType == enemyType.levye)
         {
             enemy.GetComponentInChildren<EnemyHandScript>().levye.SetActive(true);
             enemy.GetComponentInParent<Animator>().SetTrigger("levye");
-            Invoke("ShakeCams", 0.75f);
+            
         }
 
         enemy.GetComponentInParent<Enemy>().enemyColliderOff();
@@ -110,6 +137,7 @@ public class PlayerAction : MonoBehaviour
         else
         {
             playerStop();
+            Invoke("ShakeCams", 0.75f);
             Invoke("GoPlayerReturn", 1f);
         }
         failCount++;
@@ -165,6 +193,7 @@ public class PlayerAction : MonoBehaviour
         enemy.GetComponentInParent<Enemy>().sadParticle.Play();
         playerStop();
         plMovement.transformKill();
+        coinGo();
 
         Invoke("GoPlayerReturn", 1f);
     }
