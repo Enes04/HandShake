@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//using ElephantSDK;
-//using GameAnalyticsSDK;
+using ElephantSDK;
+using GameAnalyticsSDK;
 public enum GiftType { candy, gum, chocolate };
 public class GameManager : MonoBehaviour
 {
