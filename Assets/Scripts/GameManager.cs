@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
             tutorials.SetActive(true);
         }
         levels[PlayerPrefs.GetInt("Level") % 5].gameObject.SetActive(true);
-#if UNITY_IOS
+//#if UNITY_IOS
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
             if (ElephantIOS.getConsentStatus() == "Authorized")
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
                 GameAnalytics.Initialize();
             }
         }
-#endif
+//#endif
     }
     public void startGame()
     {
@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
     public void winCon()
     {
-#if UNITY_IOS
+//#if UNITY_IOS
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 if (ElephantIOS.getConsentStatus() == "Authorized")
@@ -68,11 +68,11 @@ public class GameManager : MonoBehaviour
                     GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, PlayerPrefs.GetInt("Level").ToString());
                 }
             }
-#endif
+//#endif
     }
     public void failCon()
     {
-#if UNITY_IOS
+//#if UNITY_IOS
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
             if (ElephantIOS.getConsentStatus() == "Authorized")
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, PlayerPrefs.GetInt("Level").ToString());
             }
         }
-#endif
+//#endif
     }
     void Update()
     {
